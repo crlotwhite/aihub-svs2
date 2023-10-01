@@ -141,6 +141,9 @@ def build_generator(config: Config):
 
 
 def validation(dataloader, generator: Generator, mpd: MultiPeriodDiscriminator, msd: MultiScaleDiscriminator, mel_spectogram, cf: Config):
+    print('========================================')
+    print('Validation')
+    print('========================================')
     sum_period_dis_loss = 0
     sum_scale_dis_loss = 0
     sum_gen_loss = 0
@@ -151,8 +154,9 @@ def validation(dataloader, generator: Generator, mpd: MultiPeriodDiscriminator, 
     generator.eval()
     mpd.eval()
     msd.eval()
+    
     with torch.no_grad():
-        for real_wave in dataloader:
+        for real_wave in tqdm.tqdm(dataloader):
             real_wave = real_wave.to(device, non_blocking=True)
 
             real_mel = mel_spectogram(real_wave.squeeze(1))
@@ -219,13 +223,16 @@ def train_model(
     msd.train()
     print('max epoch', cf.training_epoch)
     for epoch in range(start_epoch, cf.training_epoch):
+        print('========================================')
+        print('epoch: ', epoch + 1)
+        print('========================================')
         sum_gen = 0
         sum_dis_period = 0
         sum_dis_scale = 0
         sum_adv_period = 0
         sum_adv_scale = 0
         total = 0
-        for real_wave in dataloader:
+        for real_wave in tqdm.tqdm(dataloader):
             real_wave = real_wave.to(device)
             real_mel = mel_spectogram(real_wave.squeeze(1))
 
