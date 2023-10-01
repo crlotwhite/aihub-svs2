@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+hifi-gan/preprocess
+hifi-gan/log
+hifi-gan/checkpoint
+hifi-gan/train_file.txt
+hifi-gan/log.txt
